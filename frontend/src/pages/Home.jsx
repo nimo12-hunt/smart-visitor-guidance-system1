@@ -19,9 +19,10 @@ import {
 } from "react-icons/fi";
 import axios from "axios";
 
+// ✅ FIXED: Use environment variable for API base URL
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
-});
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+}); // ✅ FIXED: Use environment variable for API base URL
 
 // ========== PREMIUM BACKGROUND ASSETS (4K/8K ready) ==========
 const BACKGROUND_ASSETS = [
