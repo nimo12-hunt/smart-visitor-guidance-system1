@@ -61,7 +61,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://127.0.0.1:5173",
-      "https://mintnavigation1.netlify.app",
+      "https://smart-visitor-guidance-system1.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
