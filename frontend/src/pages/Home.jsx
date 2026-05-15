@@ -16,55 +16,50 @@ import {
   FiBell,
   FiChevronLeft,
   FiChevronRight,
+  FiUsers,
+  FiAward,
 } from "react-icons/fi";
 import axios from "axios";
 
 // ✅ FIXED: Use environment variable for API base URL
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
-}); // ✅ FIXED: Use environment variable for API base URL
+});
 
-// ========== PREMIUM BACKGROUND ASSETS (4K/8K ready) ==========
 const BACKGROUND_ASSETS = [
   {
     type: "video",
-    url: "https://assets.mixkit.co/videos/preview/mixkit-technology-circuit-board-connections-31201-large.mp4",
+    url: "https://assets.mixkit.co/videos/preview/mixkit-digital-circuit-board-with-glowing-connections-31202-large.mp4",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop",
+    url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&crop=center",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&h=1080&fit=crop",
+    url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=1080&fit=crop&crop=center",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=1080&fit=crop",
+    url: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1920&h=1080&fit=crop&crop=center",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&h=1080&fit=crop",
-  },
-  {
-    type: "image",
-    url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop",
+    url: "https://images.unsplash.com/photo-1581092160607-9c6e6b4e2b2b?w=1920&h=1080&fit=crop&crop=center",
   },
 ];
 
-const AUTO_ROTATE_INTERVAL = 7000; // 7 seconds
+const AUTO_ROTATE_INTERVAL = 6500;
 
-// ========== ROTATING TAGLINES (wayfinding focus) ==========
 const ROTATING_TAGLINES = [
-  "Find your way, find your service.",
-  "Discover departments & services instantly.",
-  "Navigate the Ministry with ease.",
-  "Your journey starts here.",
-  "Leave feedback, help us improve.",
+  "Igniting Innovation. Powering Ethiopia.",
+  "Discover. Connect. Transform.",
+  "Your gateway to Ministry services.",
+  "Innovation starts with navigation.",
+  "Excellence in every step.",
 ];
 
 const Home = () => {
-  // ========== STATE ==========
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
@@ -72,13 +67,13 @@ const Home = () => {
   const [sectors, setSectors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Carousel & video
+  // Carousel
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const videoRef = useRef(null);
   const autoTimerRef = useRef(null);
 
-  // Rotating text
+  // Tagline
   const [currentTaglineIndex, setCurrentTaglineIndex] = useState(0);
   const [isTextTransitioning, setIsTextTransitioning] = useState(false);
 
@@ -89,13 +84,12 @@ const Home = () => {
     avgRating: 0,
   });
 
-  // ========== AUTO‑ROTATE & MANUAL CONTROLS ==========
   const startAutoRotate = useCallback(() => {
     if (autoTimerRef.current) clearInterval(autoTimerRef.current);
     autoTimerRef.current = setInterval(() => {
       setCurrentMediaIndex((prev) => (prev + 1) % BACKGROUND_ASSETS.length);
       setIsTransitioning(true);
-      setTimeout(() => setIsTransitioning(false), 300);
+      setTimeout(() => setIsTransitioning(false), 600);
     }, AUTO_ROTATE_INTERVAL);
   }, []);
 
@@ -118,7 +112,7 @@ const Home = () => {
         (prev - 1 + BACKGROUND_ASSETS.length) % BACKGROUND_ASSETS.length,
     );
     setIsTransitioning(true);
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => setIsTransitioning(false), 600);
     resetAutoRotate();
   };
 
@@ -126,11 +120,10 @@ const Home = () => {
     stopAutoRotate();
     setCurrentMediaIndex((prev) => (prev + 1) % BACKGROUND_ASSETS.length);
     setIsTransitioning(true);
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => setIsTransitioning(false), 600);
     resetAutoRotate();
   };
 
-  // Video handling on switch
   useEffect(() => {
     if (
       BACKGROUND_ASSETS[currentMediaIndex].type === "video" &&
@@ -144,19 +137,19 @@ const Home = () => {
     return () => stopAutoRotate();
   }, [currentMediaIndex]);
 
-  // Rotating tagline effect
+  // Rotating tagline
   useEffect(() => {
     const taglineInterval = setInterval(() => {
       setIsTextTransitioning(true);
       setTimeout(() => {
         setCurrentTaglineIndex((prev) => (prev + 1) % ROTATING_TAGLINES.length);
-        setTimeout(() => setIsTextTransitioning(false), 300);
-      }, 200);
-    }, 4000);
+        setTimeout(() => setIsTextTransitioning(false), 400);
+      }, 300);
+    }, 4200);
     return () => clearInterval(taglineInterval);
   }, []);
 
-  // ========== FETCH DATA ==========
+  // Fetch Data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -182,12 +175,12 @@ const Home = () => {
           avgRating: parseFloat(avgRating).toFixed(1),
         });
       } catch (error) {
-        console.error("Error fetching sectors:", error);
-        setSectors([]);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
     fetchActiveAnnouncements();
   }, []);
@@ -197,19 +190,17 @@ const Home = () => {
       const response = await API.get("/announcements?active=true");
       const data = response.data.data || response.data || [];
       const now = new Date();
-      const activeAnnouncements = data.filter((a) => {
-        if (!a.isActive) return false;
-        if (a.endDate && new Date(a.endDate) < now) return false;
-        return true;
-      });
-      setAnnouncements(activeAnnouncements.slice(0, 3));
+      const active = data.filter(
+        (a) => a.isActive && (!a.endDate || new Date(a.endDate) >= now),
+      );
+      setAnnouncements(active.slice(0, 3));
     } catch (error) {
       console.error("Error fetching announcements:", error);
       setAnnouncements([]);
     }
   };
 
-  // ========== SEARCH ==========
+  // Search
   useEffect(() => {
     if (searchQuery.trim()) {
       const results = searchDepartments(searchQuery);
@@ -227,7 +218,6 @@ const Home = () => {
     setShowResults(false);
   };
 
-  // ========== UTILITIES ==========
   const getPriorityStyles = (priority) => {
     switch (priority) {
       case "urgent":
@@ -235,9 +225,9 @@ const Home = () => {
       case "high":
         return "bg-orange-100 text-orange-700 border-orange-200";
       case "medium":
-        return "bg-yellow-100 text-yellow-700 border-yellow-200";
+        return "bg-amber-100 text-amber-700 border-amber-200";
       default:
-        return "bg-blue-100 text-blue-700 border-blue-200";
+        return "bg-emerald-100 text-emerald-700 border-emerald-200";
     }
   };
 
@@ -246,26 +236,20 @@ const Home = () => {
       case "holiday":
         return "🎉";
       case "event":
-        return "🎪";
+        return "🎯";
       case "maintenance":
         return "🔧";
       case "alert":
-        return "⚠️";
+        return "🚨";
       default:
         return "📢";
     }
   };
 
-  const getSectorPulse = (sector) => {
-    const deptCount = sector.departmentCount || 4;
-    return `${Math.max(2, Math.round(deptCount / 2))} min`;
-  };
-
   const scrollToSectors = () => {
-    const sectorsSection = document.getElementById("sectors");
-    if (sectorsSection) {
-      sectorsSection.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document
+      .getElementById("sectors")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const currentAsset = BACKGROUND_ASSETS[currentMediaIndex];
@@ -273,11 +257,11 @@ const Home = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 to-white">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-emerald-950 to-slate-950">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto"></div>
-            <p className="mt-4 text-slate-600 font-medium">
-              Loading experience...
+            <div className="w-16 h-16 border-4 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin mx-auto"></div>
+            <p className="mt-6 text-emerald-100/80 font-medium tracking-wide">
+              Loading MINT Experience...
             </p>
           </div>
         </div>
@@ -287,27 +271,26 @@ const Home = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
+      <div className="min-h-screen bg-slate-50">
         <AnnouncementBanner />
 
-        {/* Live Announcements Bar */}
+        {/* Live Announcements */}
         {announcements.length > 0 && (
-          <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200">
-            <div className="container mx-auto px-4 py-2">
-              <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                <div className="flex items-center gap-1 text-amber-700 text-sm font-semibold">
-                  <FiBell size={14} /> Announcements:
+          <div className="bg-gradient-to-r from-amber-50 via-white to-emerald-50 border-b border-amber-100 py-2.5">
+            <div className="container mx-auto px-6">
+              <div className="flex items-center gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide py-1">
+                <div className="flex items-center gap-2 text-amber-700 font-semibold text-sm shrink-0">
+                  <FiBell className="animate-pulse" /> LIVE:
                 </div>
-                {announcements.map((announcement) => (
+                {announcements.map((ann) => (
                   <div
-                    key={announcement._id}
-                    className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${getPriorityStyles(announcement.priority)}`}
+                    key={ann._id}
+                    className={`inline-flex items-center gap-3 px-5 py-1.5 rounded-2xl text-sm font-medium border shadow-sm ${getPriorityStyles(ann.priority)}`}
                   >
-                    <span>{getTypeIcon(announcement.type)}</span>
-                    <span className="font-semibold">{announcement.title}</span>
-                    <span className="hidden sm:inline text-gray-600">•</span>
-                    <span className="hidden sm:inline text-gray-500 truncate max-w-md">
-                      {announcement.message}
+                    <span>{getTypeIcon(ann.type)}</span>
+                    <span className="font-semibold">{ann.title}</span>
+                    <span className="text-xs opacity-75 truncate max-w-xs hidden md:inline">
+                      {ann.message}
                     </span>
                   </div>
                 ))}
@@ -316,194 +299,182 @@ const Home = () => {
           </div>
         )}
 
-        {/* ========== HERO SECTION WITH CAROUSEL ========== */}
-        <div className="relative h-[85vh] min-h-[650px] w-full overflow-hidden group">
-          {/* Background Media with crossfade */}
-          {currentAsset.type === "video" ? (
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${
-                isTransitioning ? "opacity-0" : "opacity-100"
-              }`}
-              key={currentAsset.url}
-            >
-              <source src={currentAsset.url} type="video/mp4" />
-            </video>
-          ) : (
-            <div
-              className={`absolute inset-0 w-full h-full transition-opacity duration-700 bg-cover bg-center ${
-                isTransitioning ? "opacity-0" : "opacity-100"
-              }`}
-              style={{ backgroundImage: `url(${currentAsset.url})` }}
-            />
-          )}
-
-          {/* Dark Overlay with gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0B2A4A]/85 via-[#103457]/75 to-[#1A3A5C]/80 backdrop-blur-[2px]"></div>
-
-          {/* Ethiopian Flag Stripes */}
-          <div className="absolute top-0 left-0 right-0 h-1.5 flex z-20">
-            <div className="w-1/3 bg-[#078930]"></div>
-            <div className="w-1/3 bg-[#FCDD09]"></div>
-            <div className="w-1/3 bg-[#DA121A]"></div>
+        {/* ========== PREMIUM HERO SECTION ========== */}
+        <div className="relative h-screen min-h-[680px] w-full overflow-hidden">
+          {/* Background Media */}
+          <div className="absolute inset-0">
+            {currentAsset.type === "video" ? (
+              <video
+                ref={videoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 scale-105 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
+                key={currentAsset.url}
+              >
+                <source src={currentAsset.url} type="video/mp4" />
+              </video>
+            ) : (
+              <div
+                className={`absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-700 scale-105 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
+                style={{ backgroundImage: `url(${currentAsset.url})` }}
+              />
+            )}
           </div>
+
+          {/* Multi-layer Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+          <div className="absolute inset-0 bg-[radial-gradient(at_center,#0F766E_0%,transparent_70%)] opacity-40" />
+
+          {/* Ethiopian Flag Accent */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#078930] via-[#FCDD09] to-[#DA121A] z-20" />
 
           {/* Navigation Arrows */}
           <button
             onClick={goPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/30 opacity-0 group-hover:opacity-100 focus:opacity-100"
-            aria-label="Previous background"
+            className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/30 text-white flex items-center justify-center hover:bg-white/20 transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
+            aria-label="Previous"
           >
-            <FiChevronLeft size={24} />
+            <FiChevronLeft size={28} />
           </button>
           <button
             onClick={goNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/30 opacity-0 group-hover:opacity-100 focus:opacity-100"
-            aria-label="Next background"
+            className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/30 text-white flex items-center justify-center hover:bg-white/20 transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
+            aria-label="Next"
           >
-            <FiChevronRight size={24} />
+            <FiChevronRight size={28} />
           </button>
 
           {/* Hero Content */}
-          <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-            <div className="max-w-4xl mx-auto">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full mb-6 border border-white/30 shadow-lg animate-fadeInUp"></div>
+          <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center items-center text-center max-w-5xl">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-3xl border border-white/20 mb-6 text-sm font-medium text-white tracking-widest">
+              🇪🇹 MINISTRY OF INNOVATION AND TECHNOLOGY
+            </div>
 
-              {/* Main Heading */}
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-5 tracking-tight leading-tight animate-fadeInUp [animation-delay:0.1s]">
-                Welcome to{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                  MINT
-                </span>{" "}
-                Navigator
-              </h1>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-none tracking-tighter mb-6">
+              Welcome to{" "}
+              <span className="bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+                MINT
+              </span>
+              <br /> Navigator
+            </h1>
 
-              {/* Rotating Tagline - Wayfinding focused */}
-              <div className="h-20 md:h-24 overflow-hidden relative mb-6">
-                <p
-                  className={`absolute inset-x-0 text-base md:text-xl text-white/95 max-w-2xl mx-auto leading-relaxed font-medium transition-all duration-500 ${
-                    isTextTransitioning
-                      ? "opacity-0 translate-y-4"
-                      : "opacity-100 translate-y-0"
-                  }`}
-                >
-                  {ROTATING_TAGLINES[currentTaglineIndex]}
-                </p>
-              </div>
+            <div className="h-20 md:h-28 flex items-center justify-center mb-8 overflow-hidden">
+              <p
+                className={`text-xl md:text-2xl text-white/90 font-light max-w-2xl transition-all duration-700 ${
+                  isTextTransitioning
+                    ? "-translate-y-6 opacity-0"
+                    : "translate-y-0 opacity-100"
+                }`}
+              >
+                {ROTATING_TAGLINES[currentTaglineIndex]}
+              </p>
+            </div>
 
-              {/* Stats Cards (real data) */}
-              <div className="grid grid-cols-3 gap-4 max-w-md mx-auto mb-10 animate-fadeInUp [animation-delay:0.3s]">
-                <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md px-4 py-3 text-center transition-transform hover:scale-105 duration-300">
-                  <p className="text-2xl md:text-3xl font-bold text-white">
-                    {stats.totalDepts}
-                  </p>
-                  <p className="text-[11px] text-white/80 uppercase tracking-wide">
-                    Departments
-                  </p>
+            {/* Live Stats */}
+            <div className="flex flex-wrap justify-center gap-8 mb-12 text-white">
+              <div className="text-center">
+                <div className="text-4xl font-semibold text-emerald-300">
+                  {stats.totalDepts}
                 </div>
-                <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md px-4 py-3 text-center transition-transform hover:scale-105 duration-300">
-                  <p className="text-2xl md:text-3xl font-bold text-white">
-                    {stats.totalSectors}
-                  </p>
-                  <p className="text-[11px] text-white/80 uppercase tracking-wide">
-                    Sectors
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md px-4 py-3 text-center transition-transform hover:scale-105 duration-300">
-                  <p className="text-2xl md:text-3xl font-bold text-amber-300">
-                    {stats.avgRating}
-                  </p>
-                  <p className="text-[11px] text-white/80 uppercase tracking-wide">
-                    Avg Rating
-                  </p>
+                <div className="text-xs uppercase tracking-[2px] text-white/70 mt-1">
+                  Departments
                 </div>
               </div>
-
-              {/* CTA Buttons – Get Started only */}
-              <div className="flex flex-wrap justify-center gap-4 animate-fadeInUp [animation-delay:0.4s]">
-                <button
-                  onClick={scrollToSectors}
-                  className="group px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full font-semibold hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 text-sm transform hover:scale-105"
-                >
-                  Get Started
-                  <FiArrowRight
-                    className="group-hover:translate-x-1 transition-transform"
-                    size={16}
-                  />
-                </button>
+              <div className="text-center">
+                <div className="text-4xl font-semibold text-teal-300">
+                  {stats.totalSectors}
+                </div>
+                <div className="text-xs uppercase tracking-[2px] text-white/70 mt-1">
+                  Sectors
+                </div>
+              </div>
+              <div className="text-center flex items-center gap-2">
+                <div className="text-4xl font-semibold text-amber-300">
+                  {stats.avgRating}
+                </div>
+                <div>
+                  <FiStar className="text-amber-300 inline" />
+                  <div className="text-xs uppercase tracking-[2px] text-white/70 mt-1">
+                    Average Rating
+                  </div>
+                </div>
               </div>
             </div>
+
+            <button
+              onClick={scrollToSectors}
+              className="group px-10 py-4 bg-white text-emerald-950 rounded-2xl font-semibold text-lg flex items-center gap-3 hover:bg-emerald-50 active:scale-95 transition-all duration-300 shadow-2xl shadow-emerald-900/30"
+            >
+              Explore Sectors
+              <FiArrowRight
+                className="group-hover:translate-x-1 transition-transform"
+                size={22}
+              />
+            </button>
           </div>
 
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-            <div className="w-6 h-10 rounded-full border-2 border-white/50 flex justify-center">
-              <div className="w-1 h-2 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+          {/* Scroll Prompt */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+            <div className="text-white/60 text-xs tracking-widest mb-3">
+              SCROLL TO DISCOVER
+            </div>
+            <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
+              <div className="w-1 h-2 bg-white rounded-full animate-scroll" />
             </div>
           </div>
         </div>
 
-        {/* Search Section */}
-        <div className="container mx-auto px-4 -mt-7 sm:-mt-8 relative z-20">
-          <div className="max-w-2xl mx-auto relative">
-            <div className="bg-white rounded-2xl shadow-xl p-1.5 border border-slate-100">
-              <div className="relative flex items-center min-w-0">
+        {/* Enhanced Search Bar */}
+        <div className="container mx-auto px-6 -mt-8 relative z-30 pb-8">
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-white rounded-3xl shadow-2xl p-2 border border-slate-100">
+              <div className="relative flex items-center">
                 <FiSearch
-                  className="absolute left-4 text-slate-500 pointer-events-none z-10"
-                  size={20}
+                  className="absolute left-6 text-slate-400"
+                  size={22}
                 />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={handleSearchChange}
-                  placeholder="Search departments, services, or buildings…"
-                  className="w-full min-w-0 pl-11 pr-[5.5rem] sm:pr-28 py-3.5 bg-white border-0 rounded-[0.875rem] focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-sm text-slate-900 placeholder:text-slate-600"
+                  placeholder="Search departments, services, floors or buildings..."
+                  className="w-full pl-16 pr-6 py-5 bg-transparent border-0 focus:outline-none text-lg placeholder:text-slate-400"
                 />
-                <button
-                  type="button"
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 sm:px-5 py-2 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-200 text-sm shadow-md shrink-0"
-                >
+                <button className="absolute right-3 bg-emerald-600 hover:bg-emerald-700 transition-colors text-white px-8 py-3.5 rounded-2xl font-semibold shadow-inner">
                   Search
                 </button>
               </div>
             </div>
 
+            {/* Search Results Dropdown */}
             {showResults && searchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 bg-white rounded-xl shadow-xl border border-gray-100 z-50 mt-2 overflow-hidden animate-fadeInUp">
+              <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden py-2 z-50 max-h-[420px] overflow-y-auto">
                 {searchResults.map((dept) => (
                   <Link
                     key={dept.id}
                     to={`/department/${dept.id}`}
                     onClick={handleResultClick}
-                    className="block px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0 group"
+                    className="flex items-center gap-5 px-8 py-5 hover:bg-slate-50 transition-all group border-b border-slate-100 last:border-none"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors text-sm">
-                          {dept.name}
-                        </div>
-                        <div className="text-xs text-gray-500 flex items-center gap-2 mt-1">
-                          <span className="flex items-center gap-1">
-                            <FiMapPin className="text-emerald-500" size={11} />
-                            Bldg {dept.building}
-                          </span>
-                          <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                          <span>{getFloorLabel(dept.floor)}</span>
-                          <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                          <span>Rm {dept.room}</span>
-                        </div>
+                    <div className="flex-1">
+                      <div className="font-semibold text-slate-900 group-hover:text-emerald-700">
+                        {dept.name}
                       </div>
-                      <div className="flex items-center gap-1.5 bg-yellow-50 px-2 py-1 rounded-full">
-                        <FiStar className="fill-current text-yellow-500 text-xs" />
-                        <span className="text-xs font-semibold text-gray-700">
-                          {dept.rating}
+                      <div className="text-sm text-slate-500 flex items-center gap-4 mt-1">
+                        <span className="flex items-center gap-1">
+                          <FiMapPin className="text-emerald-500" /> Bldg{" "}
+                          {dept.building} • Floor {getFloorLabel(dept.floor)}
                         </span>
+                        <span>Rm {dept.room}</span>
                       </div>
+                    </div>
+                    <div className="flex items-center gap-1 bg-amber-50 px-4 py-1 rounded-2xl">
+                      <FiStar className="text-amber-500" />
+                      <span className="font-semibold text-amber-700 text-sm">
+                        {dept.rating}
+                      </span>
                     </div>
                   </Link>
                 ))}
@@ -512,167 +483,129 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Sectors Grid Section */}
+        {/* Sectors Section - Premium Cards */}
         <main
           id="sectors"
-          className="container mx-auto px-4 py-12 scroll-mt-24"
+          className="container mx-auto px-6 py-20 scroll-mt-20"
         >
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-full mb-3"></div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                Explore Our Sectors
-              </h2>
-              <p className="text-gray-500 text-sm max-w-2xl mx-auto">
-                Navigate through ministry departments organized by functional
-                sectors with one‑tap navigation
-              </p>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-5 py-2 rounded-3xl text-sm font-semibold tracking-wider mb-4">
+              FUNCTIONAL AREAS
             </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">
+              Our Innovation Sectors
+            </h2>
+            <p className="text-slate-600 mt-4 max-w-xl mx-auto text-lg">
+              Organized excellence. Instant access to every department and
+              service.
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-              {sectors.map((sector, index) => (
-                <Link
-                  key={sector.id}
-                  to={`/sector/${sector.id}`}
-                  className="group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 hover:border-emerald-300 hover:-translate-y-1 animate-fadeInUp"
-                  style={{ animationDelay: `${index * 0.06}s` }}
-                >
-                  {/* Image Container */}
-                  <div className="relative h-36 overflow-hidden">
-                    <img
-                      src={
-                        sector.image ||
-                        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=420&fit=crop"
-                      }
-                      alt={sector.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=420&fit=crop";
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {sectors.map((sector, index) => (
+              <Link
+                key={sector.id || index}
+                to={`/sector/${sector.id}`}
+                className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-slate-100 hover:border-emerald-200 transition-all duration-500 hover:-translate-y-3"
+              >
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={
+                      sector.image ||
+                      `https://picsum.photos/id/${80 + index}/800/600`
+                    }
+                    alt={sector.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
-                    {/* Floating badges */}
-                    <div
-                      className="absolute left-3 top-3 text-[10px] font-bold text-white px-2.5 py-1 rounded-full shadow-md"
-                      style={{ backgroundColor: sector.color || "#0B2A4A" }}
-                    >
-                      {sector.building}-{sector.floors?.[0] || 1}
-                    </div>
-                    <div className="absolute right-3 top-3 text-[10px] font-bold text-white px-2.5 py-1 rounded-full bg-rose-600 shadow-md">
-                      {Math.max(
-                        1,
-                        Math.round((sector.departmentCount || 4) / 4),
-                      )}
-                    </div>
+                  <div className="absolute top-5 left-5 bg-white/90 text-emerald-800 text-xs font-bold px-4 py-1.5 rounded-2xl backdrop-blur">
+                    {sector.building || "MINT"}
                   </div>
 
-                  {/* Content */}
-                  <div className="p-4">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="inline-flex items-center gap-1.5 bg-emerald-50 px-2 py-1 rounded-full">
-                        <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wide">
-                          Room: {sector.building}
-                          {sector.floors?.[0] || 1}0
-                        </span>
+                  <div className="absolute bottom-5 right-5 bg-emerald-600 text-white text-xs font-mono px-3 py-1 rounded-xl">
+                    {sector.departmentCount || 8} DEPTS
+                  </div>
+                </div>
+
+                <div className="p-8">
+                  <h3 className="text-2xl font-semibold text-slate-900 group-hover:text-emerald-700 transition-colors leading-tight mb-3">
+                    {sector.name}
+                  </h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed line-clamp-3 mb-8">
+                    {sector.description ||
+                      "Driving Ethiopia’s digital and technological transformation through excellence and innovation."}
+                  </p>
+
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <div className="flex items-center text-emerald-600 text-sm font-medium">
+                        <FiUsers className="mr-2" /> Quick Access
                       </div>
-                      <div className="inline-flex items-center gap-1.5 bg-amber-50 px-2 py-1 rounded-full">
-                        <FiStar
-                          className="text-amber-500 fill-amber-500"
-                          size={10}
-                        />
-                        <span className="text-[10px] font-bold text-amber-700">
-                          {(sector.avgRating || 4.5).toFixed(1)}
-                        </span>
+                      <div className="text-xs text-slate-500 mt-1">
+                        Est. {getSectorPulse(sector)}
                       </div>
                     </div>
-
-                    <h3 className="font-extrabold text-slate-800 text-lg mb-1.5 group-hover:text-emerald-700 transition-colors leading-tight">
-                      {sector.name}
-                    </h3>
-                    <p className="text-slate-500 text-xs mb-3 line-clamp-2 leading-relaxed">
-                      {sector.description?.substring(0, 80) ||
-                        "Ministry sector providing essential services..."}
-                    </p>
-
-                    {/* Department count & walking time */}
-                    <div className="flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-100 pt-2 mt-1">
-                      <div className="flex items-center gap-1.5 font-semibold">
-                        <FiMapPin size={11} className="text-emerald-500" />
-                        <span>{getSectorPulse(sector)}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 font-semibold text-amber-600">
-                        <FiStar size={11} className="fill-amber-500" />
-                        <span>{sector.departmentCount || 0} departments</span>
-                      </div>
-                    </div>
-
-                    {/* View details button */}
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-[10px] font-bold tracking-[0.18em] text-slate-400 uppercase group-hover:text-emerald-600 transition-colors">
-                        View Details
+                    <div className="flex items-center gap-1 text-amber-500">
+                      <FiAward size={18} />
+                      <span className="font-semibold text-sm">
+                        {(sector.avgRating || 4.7).toFixed(1)}
                       </span>
-                      <div className="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center group-hover:bg-emerald-600 transition-colors">
-                        <FiArrowRight size={12} />
-                      </div>
                     </div>
                   </div>
-                </Link>
-              ))}
-            </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </main>
 
-        {/* Feedback CTA (only here) */}
-        <div className="container mx-auto px-4 pb-16">
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link
-              to="/feedback"
-              className="group px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-200 flex items-center gap-2 shadow-md text-sm transform hover:scale-105"
-            >
-              <FiStar size={14} /> Leave General Feedback
-            </Link>
+        {/* Final CTA */}
+        <div className="bg-slate-900 py-20 text-white">
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-2xl mx-auto">
+              <FiStar className="mx-auto text-amber-400 mb-6" size={48} />
+              <h3 className="text-4xl font-bold mb-4">
+                Help Us Serve You Better
+              </h3>
+              <p className="text-slate-400 mb-10">
+                Your feedback shapes the future of public service innovation in
+                Ethiopia.
+              </p>
+              <Link
+                to="/feedback"
+                className="inline-flex items-center gap-3 bg-white text-slate-900 px-10 py-4 rounded-2xl font-semibold hover:bg-emerald-400 hover:text-white transition-all group text-lg"
+              >
+                Share Your Experience
+                <FiArrowRight className="group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Custom Animations */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(25px);
+        <style jsx>{`
+          @keyframes scroll {
+            0% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(12px);
+            }
+            100% {
+              transform: translateY(0);
+            }
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          .animate-scroll {
+            animation: scroll 1.8s infinite;
           }
-        }
-        .animate-fadeInUp {
-          animation: fadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
-          opacity: 0;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        @keyframes bounce {
-          0%,
-          100% {
-            transform: translateY(0);
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
           }
-          50% {
-            transform: translateY(6px);
-          }
-        }
-        .animate-bounce {
-          animation: bounce 1.5s infinite;
-        }
-      `}</style>
+        `}</style>
+      </div>
     </Layout>
   );
 };
