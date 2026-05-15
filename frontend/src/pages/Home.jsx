@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/layout/Layout";
@@ -22,54 +23,75 @@ import {
   FiZap,
   FiCpu,
   FiShield,
+  FiCompass,
+  FiTrendingUp,
+  FiHexagon,
 } from "react-icons/fi";
 import axios from "axios";
 
 // ----------------------------------------------------------------------
-// CONFIGURATION & ASSETS
+// PREMIUM CONFIGURATION
 // ----------------------------------------------------------------------
 
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
+// High‑quality background assets (4K video + images)
 const BACKGROUND_ASSETS = [
   {
     type: "video",
     url: "https://assets.mixkit.co/videos/preview/mixkit-digital-circuit-board-with-glowing-connections-31202-large.mp4",
-    title: "Innovation Hub",
+    title: "Digital Innovation Hub",
   },
   {
     type: "image",
     url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80",
-    title: "Global Connectivity",
-  },
-  {
-    type: "image",
-    url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80",
-    title: "Digital Security",
+    title: "Connected Future",
   },
   {
     type: "image",
     url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
-    title: "Future Tech",
+    title: "Advanced Technology",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80",
+    title: "Cyber Security",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1920&q=80",
+    title: "Artificial Intelligence",
   },
 ];
 
 const ROTATING_TAGLINES = [
-  "Igniting Innovation. Powering Ethiopia.",
-  "Your Digital Gateway to Excellence.",
-  "Streamlining Navigation for a Smarter Tomorrow.",
-  "Empowering Citizens through Technology.",
-  "The Future of Governance is Digital.",
+  "Empowering Ethiopia through Digital Innovation.",
+  "Your Gateway to Modern Public Services.",
+  "Streamlining Governance with Technology.",
+  "Building a Digitally Inclusive Nation.",
+  "Innovation at the Heart of Service.",
 ];
+
+// Splash images for sectors (high‑quality, unique per sector)
+const sectorSplashImages = {
+  1: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop",
+  2: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=500&fit=crop",
+  3: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&h=500&fit=crop",
+  4: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop",
+  5: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=500&fit=crop",
+  6: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=500&fit=crop",
+  7: "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?w=800&h=500&fit=crop",
+  8: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&h=500&fit=crop",
+};
 
 // ----------------------------------------------------------------------
 // MAIN COMPONENT
 // ----------------------------------------------------------------------
 
 const Home = () => {
-  // State: Data & Loading
+  // Data states
   const [sectors, setSectors] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -79,24 +101,22 @@ const Home = () => {
     avgRating: 4.9,
   });
 
-  // State: UI & Search
+  // UI states
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
 
-  // State: Hero Carousel
+  // Hero carousel
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentTaglineIndex, setCurrentTaglineIndex] = useState(0);
   const [isTextTransitioning, setIsTextTransitioning] = useState(false);
-
   const videoRef = useRef(null);
   const autoTimerRef = useRef(null);
 
   // ----------------------------------------------------------------------
-  // LOGIC: HELPERS
+  // HELPERS
   // ----------------------------------------------------------------------
-
   const getPriorityStyles = (priority) => {
     switch (priority) {
       case "urgent":
@@ -110,14 +130,13 @@ const Home = () => {
 
   const getSectorPulse = useCallback((sector) => {
     const hour = new Date().getHours();
-    if (hour >= 8 && hour <= 17) return "High Traffic";
-    return "Optimized Access";
+    if (hour >= 8 && hour <= 17) return "Business Hours • Active";
+    return "After Hours • Limited Access";
   }, []);
 
   // ----------------------------------------------------------------------
-  // LOGIC: CAROUSEL & ANIMATIONS
+  // CAROUSEL & ANIMATIONS
   // ----------------------------------------------------------------------
-
   const handleNext = useCallback(() => {
     setIsTransitioning(true);
     setTimeout(() => {
@@ -138,7 +157,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    autoTimerRef.current = setInterval(handleNext, 7000);
+    autoTimerRef.current = setInterval(handleNext, 8000);
     return () => clearInterval(autoTimerRef.current);
   }, [handleNext]);
 
@@ -149,54 +168,60 @@ const Home = () => {
         setCurrentTaglineIndex((prev) => (prev + 1) % ROTATING_TAGLINES.length);
         setIsTextTransitioning(false);
       }, 500);
-    }, 4500);
+    }, 5000);
     return () => clearInterval(taglineTimer);
   }, []);
 
   // ----------------------------------------------------------------------
-  // LOGIC: DATA FETCHING
+  // DATA FETCHING
   // ----------------------------------------------------------------------
-
   useEffect(() => {
-    const fetchPortalData = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const [sectorsData, deptsData] = await Promise.all([
+        const [sectorsData, departmentsData] = await Promise.all([
           sectorService.getPublicSectors(),
           departmentService.getAll(),
         ]);
 
         setSectors(sectorsData || []);
-
-        // Fetch Real-time Feedback if possible
-        let dynamicRating = 4.9;
-        try {
-          const res = await API.get("/feedback/stats");
-          dynamicRating = res.data?.average || 4.9;
-        } catch (e) {
-          console.log("Stats offline, using defaults.");
-        }
-
-        setStats({
-          totalDepts: deptsData?.length || 0,
+        setStats((prev) => ({
+          ...prev,
+          totalDepts: departmentsData?.length || 0,
           totalSectors: sectorsData?.length || 0,
-          avgRating: parseFloat(dynamicRating).toFixed(1),
-        });
+        }));
+
+        // Fetch real‑time average rating if available
+        try {
+          const feedbackStats = await API.get("/feedback/stats");
+          const avg = feedbackStats.data?.average;
+          if (avg) {
+            setStats((prev) => ({
+              ...prev,
+              avgRating: parseFloat(avg).toFixed(1),
+            }));
+          }
+        } catch (err) {
+          console.debug("Feedback stats not available, using default rating.");
+        }
 
         // Announcements
         const annRes = await API.get("/announcements?active=true");
-        setAnnouncements((annRes.data.data || []).slice(0, 3));
+        const activeAnnouncements = (annRes.data.data || []).filter(
+          (a) =>
+            a.isActive && (!a.endDate || new Date(a.endDate) >= new Date()),
+        );
+        setAnnouncements(activeAnnouncements.slice(0, 3));
       } catch (error) {
-        console.error("MInT Portal Error:", error);
+        console.error("Error loading home data:", error);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchPortalData();
+    fetchData();
   }, []);
 
-  // Search Logic
+  // Search
   useEffect(() => {
     if (searchQuery.trim().length > 1) {
       const results = searchDepartments(searchQuery);
@@ -207,47 +232,58 @@ const Home = () => {
     }
   }, [searchQuery]);
 
-  // ----------------------------------------------------------------------
-  // RENDER: LOADING STATE
-  // ----------------------------------------------------------------------
+  const handleSearchChange = (e) => setSearchQuery(e.target.value);
+  const handleResultClick = () => {
+    setSearchQuery("");
+    setShowResults(false);
+  };
 
+  // Scroll helper
+  const scrollToSearch = () => {
+    document
+      .getElementById("search-section")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // ----------------------------------------------------------------------
+  // RENDER LOADING
+  // ----------------------------------------------------------------------
   if (loading) {
     return (
-      <div className="h-screen w-full flex flex-col items-center justify-center bg-[#020617]">
+      <div className="min-h-screen bg-[#0A1128] flex flex-col items-center justify-center">
         <div className="relative">
-          <div className="w-24 h-24 border-2 border-emerald-500/20 rounded-full animate-ping" />
-          <div className="absolute inset-0 w-24 h-24 border-t-2 border-emerald-500 rounded-full animate-spin" />
+          <div className="w-24 h-24 border-4 border-emerald-500/20 rounded-full animate-ping" />
+          <div className="absolute inset-0 w-24 h-24 border-t-4 border-emerald-500 rounded-full animate-spin" />
         </div>
-        <h2 className="mt-8 text-emerald-500 font-mono text-sm tracking-[0.5em] uppercase animate-pulse">
-          Secure Portal Loading...
-        </h2>
+        <p className="mt-8 text-emerald-500 text-sm tracking-widest uppercase animate-pulse">
+          Loading MINT Portal...
+        </p>
       </div>
     );
   }
 
   // ----------------------------------------------------------------------
-  // RENDER: MAIN UI
+  // MAIN RENDER
   // ----------------------------------------------------------------------
-
   return (
     <Layout>
-      <div className="min-h-screen bg-slate-50 overflow-x-hidden">
+      <div className="relative min-h-screen bg-white">
+        {/* Announcement Banner (Static) */}
         <AnnouncementBanner />
 
-        {/* Dynamic Ticker */}
+        {/* Live Ticker for Urgent Announcements */}
         {announcements.length > 0 && (
-          <div className="bg-slate-900 py-3 border-b border-white/5">
-            <div className="container mx-auto px-6 flex items-center gap-6">
-              <div className="flex items-center gap-2 text-emerald-400 font-black text-[10px] uppercase tracking-widest shrink-0">
-                <FiActivity className="animate-pulse" /> Live Status:
+          <div className="bg-slate-900 border-b border-white/5">
+            <div className="container mx-auto px-6 py-2.5 flex items-center gap-6 overflow-x-auto scrollbar-hide">
+              <div className="flex items-center gap-2 text-emerald-400 text-[10px] font-bold uppercase tracking-widest shrink-0">
+                <FiActivity size={12} className="animate-pulse" /> LATEST:
               </div>
-              <div className="flex gap-4 overflow-x-auto scrollbar-hide no-scrollbar">
+              <div className="flex gap-4">
                 {announcements.map((ann) => (
                   <div
                     key={ann._id}
-                    className={`px-4 py-1 rounded-full border text-xs font-bold flex items-center gap-2 whitespace-nowrap ${getPriorityStyles(ann.priority)}`}
+                    className={`px-3 py-1 rounded-full border text-xs font-medium whitespace-nowrap ${getPriorityStyles(ann.priority)}`}
                   >
-                    <span className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" />
                     {ann.title}
                   </div>
                 ))}
@@ -257,8 +293,8 @@ const Home = () => {
         )}
 
         {/* ========== ELITE HERO SECTION ========== */}
-        <section className="relative h-[90vh] min-h-[700px] w-full overflow-hidden bg-black">
-          {/* Media Engine */}
+        <section className="relative h-screen max-h-[800px] w-full overflow-hidden bg-black">
+          {/* Background Media */}
           <div className="absolute inset-0 z-0">
             {BACKGROUND_ASSETS[currentMediaIndex].type === "video" ? (
               <video
@@ -267,7 +303,9 @@ const Home = () => {
                 loop
                 muted
                 playsInline
-                className={`w-full h-full object-cover transition-opacity duration-1000 ${isTransitioning ? "opacity-0" : "opacity-60"}`}
+                className={`h-full w-full object-cover transition-opacity duration-1000 ${
+                  isTransitioning ? "opacity-0" : "opacity-70"
+                }`}
                 key={BACKGROUND_ASSETS[currentMediaIndex].url}
               >
                 <source
@@ -277,182 +315,186 @@ const Home = () => {
               </video>
             ) : (
               <div
-                className={`w-full h-full bg-cover bg-center transition-all duration-1000 scale-110 ${isTransitioning ? "opacity-0" : "opacity-60"}`}
+                className={`h-full w-full bg-cover bg-center transition-all duration-1000 ${
+                  isTransitioning ? "opacity-0" : "opacity-70"
+                }`}
                 style={{
                   backgroundImage: `url(${BACKGROUND_ASSETS[currentMediaIndex].url})`,
                 }}
               />
             )}
-            {/* Layers of Sophistication */}
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-transparent to-slate-950" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.1)_0%,transparent_70%)]" />
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.15)_0%,transparent_70%)]" />
           </div>
 
-          {/* Ethiopian Sovereign Line */}
-          <div className="absolute top-0 left-0 w-full h-1 z-50 flex">
+          {/* Ethiopian Flag Bar */}
+          <div className="absolute top-0 left-0 w-full h-1 z-30 flex">
             <div className="h-full w-1/3 bg-[#078930]" />
             <div className="h-full w-1/3 bg-[#FCDD09]" />
             <div className="h-full w-1/3 bg-[#DA121A]" />
           </div>
 
-          {/* Hero Main Content */}
-          <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center items-center text-center">
-            <div className="mb-6 px-6 py-2 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full inline-flex items-center gap-3 animate-fade-in-down">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
-              <span className="text-white text-[10px] font-black tracking-[0.4em] uppercase">
+          {/* Hero Content */}
+          <div className="relative z-20 container mx-auto px-6 h-full flex flex-col justify-center text-center items-center">
+            <div className="mb-8 inline-flex items-center gap-3 px-5 py-2 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full">
+              <FiHexagon className="text-emerald-400" size={16} />
+              <span className="text-white text-[11px] font-bold tracking-[0.3em] uppercase">
                 Ministry of Innovation & Technology
               </span>
             </div>
 
-            <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85] mb-8">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.1] mb-6">
               MINT{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500">
-                NAVIGATOR
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                Navigator
               </span>
             </h1>
 
-            <div className="h-20 flex items-center">
+            <div className="h-20 flex items-center justify-center">
               <p
-                className={`text-xl md:text-3xl text-slate-300 font-light tracking-wide transition-all duration-700 ${isTextTransitioning ? "opacity-0 -translate-y-4" : "opacity-100 translate-y-0"}`}
+                className={`text-xl md:text-2xl text-slate-300 font-light max-w-3xl transition-all duration-700 ${
+                  isTextTransitioning
+                    ? "opacity-0 translate-y-4"
+                    : "opacity-100 translate-y-0"
+                }`}
               >
                 {ROTATING_TAGLINES[currentTaglineIndex]}
               </p>
             </div>
 
-            {/* Portal Stats HUD */}
-            <div className="flex flex-wrap justify-center gap-12 md:gap-24 my-16">
+            {/* Stats Dashboard */}
+            <div className="flex flex-wrap justify-center gap-10 md:gap-20 mt-12">
               {[
                 {
                   label: "Departments",
-                  val: stats.totalDepts,
-                  icon: <FiGrid />,
+                  value: stats.totalDepts,
+                  icon: <FiGrid size={24} />,
                 },
-                { label: "Sectors", val: stats.totalSectors, icon: <FiCpu /> },
                 {
-                  label: "User Rating",
-                  val: stats.avgRating,
-                  icon: <FiStar className="text-amber-400" />,
+                  label: "Sectors",
+                  value: stats.totalSectors,
+                  icon: <FiCpu size={24} />,
                 },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col items-center group cursor-default"
-                >
-                  <div className="text-white/20 mb-2 transition-colors group-hover:text-emerald-400">
-                    {stat.icon}
+                {
+                  label: "Citizen Rating",
+                  value: `${stats.avgRating} ★`,
+                  icon: <FiStar className="text-yellow-400" size={24} />,
+                },
+              ].map((item, idx) => (
+                <div key={idx} className="text-center group cursor-default">
+                  <div className="text-white/30 mb-2 group-hover:text-emerald-400 transition-colors">
+                    {item.icon}
                   </div>
-                  <div className="text-4xl md:text-5xl font-black text-white">
-                    {stat.val}
-                  </div>
-                  <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-500 mt-2">
-                    {stat.label}
-                  </div>
+                  <p className="text-4xl md:text-5xl font-black text-white">
+                    {item.value}
+                  </p>
+                  <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-2">
+                    {item.label}
+                  </p>
                 </div>
               ))}
             </div>
 
             <button
-              onClick={() =>
-                document
-                  .getElementById("search-anchor")
-                  .scrollIntoView({ behavior: "smooth" })
-              }
-              className="group px-12 py-5 bg-white text-slate-950 rounded-2xl font-black text-lg flex items-center gap-4 transition-all hover:bg-emerald-500 hover:text-white hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+              onClick={scrollToSearch}
+              className="group mt-16 px-8 py-4 bg-white text-slate-900 rounded-xl font-bold text-lg flex items-center gap-3 transition-all hover:bg-emerald-500 hover:text-white hover:scale-105 active:scale-95 shadow-2xl"
             >
-              Start Exploring{" "}
-              <FiArrowRight className="group-hover:translate-x-2 transition-transform" />
+              Explore Services
+              <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
-          {/* Carousel HUD Controls */}
-          <div className="absolute bottom-12 right-12 flex items-center gap-6 z-20">
-            <div className="flex gap-2">
+          {/* Carousel Controls */}
+          <div className="absolute bottom-8 right-8 flex items-center gap-4 z-30">
+            <div className="flex gap-1">
               {BACKGROUND_ASSETS.map((_, idx) => (
                 <div
                   key={idx}
-                  className={`h-1.5 transition-all duration-700 rounded-full ${currentMediaIndex === idx ? "w-12 bg-emerald-500" : "w-3 bg-white/20"}`}
+                  className={`h-1.5 transition-all duration-500 rounded-full ${
+                    currentMediaIndex === idx
+                      ? "w-8 bg-emerald-400"
+                      : "w-3 bg-white/30"
+                  }`}
                 />
               ))}
             </div>
             <div className="flex gap-2">
               <button
                 onClick={handlePrev}
-                className="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white transition-all"
+                className="p-3 rounded-lg border border-white/20 bg-white/5 hover:bg-white/15 text-white transition"
               >
-                <FiChevronLeft />
+                <FiChevronLeft size={20} />
               </button>
               <button
                 onClick={handleNext}
-                className="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white transition-all"
+                className="p-3 rounded-lg border border-white/20 bg-white/5 hover:bg-white/15 text-white transition"
               >
-                <FiChevronRight />
+                <FiChevronRight size={20} />
               </button>
             </div>
           </div>
         </section>
 
-        {/* ========== SEARCH INTELLIGENCE ========== */}
+        {/* ========== SEARCH & WAYFINDING SECTION ========== */}
         <div
-          id="search-anchor"
-          className="relative z-30 -mt-16 container mx-auto px-6"
+          id="search-section"
+          className="relative z-20 -mt-16 container mx-auto px-6"
         >
           <div className="max-w-5xl mx-auto">
-            <div className="bg-white rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.12)] p-4 border border-slate-100 relative group">
+            <div className="bg-white rounded-3xl shadow-2xl p-2 border border-slate-200">
               <div className="relative flex items-center">
-                <div className="absolute left-8 text-emerald-600 transition-transform group-focus-within:scale-110">
-                  <FiSearch size={32} />
+                <div className="absolute left-6 text-emerald-500">
+                  <FiSearch size={28} />
                 </div>
                 <input
                   type="text"
-                  placeholder="Search for departments, floor locations, or digital services..."
-                  className="w-full pl-24 pr-12 py-8 text-2xl font-medium text-slate-800 placeholder:text-slate-300 focus:outline-none bg-transparent"
+                  placeholder="Search for a department, service, or building location..."
+                  className="w-full pl-20 pr-32 py-6 text-lg text-slate-800 placeholder:text-slate-400 focus:outline-none bg-transparent"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={handleSearchChange}
                 />
-                <div className="absolute right-6 px-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-slate-400 text-xs font-bold hidden md:block">
-                  ESC TO CLOSE
+                <div className="absolute right-6 text-slate-400 text-xs font-mono border-l border-slate-200 pl-4">
+                  Press Enter
                 </div>
               </div>
 
-              {/* Dynamic Dropdown Results */}
-              {showResults && (
-                <div className="absolute top-full left-0 right-0 mt-4 bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden z-[100] animate-fade-in-up">
-                  <div className="p-6 bg-slate-50/50 border-b border-slate-100 flex justify-between">
-                    <span className="text-[10px] font-black text-slate-400 tracking-widest uppercase">
-                      System Matches
+              {showResults && searchResults.length > 0 && (
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-50 overflow-hidden">
+                  <div className="px-6 py-4 bg-slate-50 border-b border-slate-100 flex justify-between">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                      🔍 System Results
                     </span>
-                    <span className="text-[10px] font-black text-emerald-600 uppercase">
-                      {searchResults.length} Departments Found
+                    <span className="text-[10px] font-bold text-emerald-600">
+                      {searchResults.length} departments found
                     </span>
                   </div>
                   {searchResults.map((dept) => (
                     <Link
                       key={dept.id}
                       to={`/department/${dept.id}`}
-                      className="flex items-center gap-8 p-8 hover:bg-emerald-50/50 transition-all group border-b border-slate-50 last:border-0"
+                      onClick={handleResultClick}
+                      className="flex items-center gap-6 p-6 hover:bg-emerald-50/30 transition border-b border-slate-50 last:border-0"
                     >
-                      <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                        <FiGrid size={28} />
+                      <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500 group-hover:bg-emerald-600">
+                        <FiMapPin size={20} />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-bold text-slate-900 text-xl mb-1">
+                        <h4 className="font-bold text-slate-800 text-lg">
                           {dept.name}
                         </h4>
-                        <div className="flex gap-6 text-sm text-slate-500 font-medium">
-                          <span className="flex items-center gap-2">
-                            <FiMapPin className="text-emerald-500" /> Bldg{" "}
-                            {dept.building}
-                          </span>
-                          <span>Level {getFloorLabel(dept.floor)}</span>
+                        <div className="flex gap-4 text-sm text-slate-500 mt-1">
+                          <span>Building {dept.building}</span>
+                          <span>{getFloorLabel(dept.floor)}</span>
                           <span>Room {dept.room}</span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-full">
+                      <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1 rounded-full">
                         <FiStar
-                          className="text-amber-500"
-                          fill="currentColor"
+                          className="text-yellow-500 fill-yellow-500"
+                          size={14}
                         />
-                        <span className="text-amber-700 font-bold text-sm">
+                        <span className="font-bold text-slate-700">
                           {dept.rating}
                         </span>
                       </div>
@@ -464,75 +506,66 @@ const Home = () => {
           </div>
         </div>
 
-        {/* ========== SECTOR ARCHITECTURE ========== */}
-        <section className="container mx-auto px-6 py-32">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-            <div className="max-w-3xl">
-              <div className="flex items-center gap-3 text-emerald-600 font-black text-[10px] tracking-[0.3em] uppercase mb-4">
-                <FiZap /> System Architecture
+        {/* ========== SECTOR GRID ========== */}
+        <section className="container mx-auto px-6 py-24">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div>
+              <div className="flex items-center gap-2 text-emerald-600 text-[11px] font-bold uppercase tracking-wider mb-4">
+                <FiCompass /> Our Structure
               </div>
-              <h2 className="text-5xl md:text-7xl font-black text-slate-950 tracking-tighter mb-8">
-                Institutional <br />{" "}
-                <span className="text-emerald-600">Verticals.</span>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                Explore by <span className="text-emerald-600">Sector</span>
               </h2>
-              <p className="text-xl text-slate-500 leading-relaxed max-w-2xl">
-                The Ministry is organized into strategic technology sectors.
-                Explore each domain to access specialized personnel and digital
-                resources.
+              <p className="text-slate-500 text-lg max-w-2xl mt-4">
+                Navigate the Ministry through its functional sectors – each
+                responsible for a key area of innovation and technology.
               </p>
             </div>
             <Link
               to="/sectors"
-              className="px-8 py-4 bg-slate-950 text-white rounded-2xl font-bold flex items-center gap-3 transition-transform hover:-translate-y-1"
+              className="px-6 py-3 bg-slate-900 text-white rounded-xl font-bold flex items-center gap-2 transition-transform hover:-translate-y-1"
             >
               All Sectors <FiArrowRight />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-            {sectors.map((sector, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {sectors.map((sector, index) => (
               <Link
-                key={sector.id || idx}
+                key={sector.id}
                 to={`/sector/${sector.id}`}
-                className="group relative bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-xl transition-all duration-700 hover:-translate-y-4 hover:shadow-emerald-900/10"
+                className="group relative bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
               >
-                <div className="aspect-[4/5] overflow-hidden relative">
+                <div className="relative h-56 overflow-hidden">
                   <img
                     src={
                       sector.image ||
-                      `https://images.unsplash.com/photo-1581092160607-9c6e6b4e2b2b?w=800`
+                      sectorSplashImages[sector.id] ||
+                      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop"
                     }
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     alt={sector.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-
-                  {/* Status Overlay */}
-                  <div className="absolute top-6 left-6 flex flex-col gap-2">
-                    <div className="px-4 py-1.5 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full self-start">
-                      {sector.building || "MInT-HQ"}
-                    </div>
-                    <div className="px-4 py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 text-white text-[10px] font-black uppercase tracking-widest rounded-full flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                      {getSectorPulse(sector)}
-                    </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                  <div className="absolute top-4 left-4 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">
+                    {sector.building} • Sector {sector.id}
                   </div>
-                </div>
-
-                <div className="absolute bottom-0 left-0 right-0 p-10 transform transition-all duration-500 group-hover:pb-12">
-                  <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold tracking-widest uppercase mb-4">
-                    <FiUsers /> {sector.departmentCount || 8} Active Units
-                  </div>
-                  <h3 className="text-3xl font-black text-white mb-6 leading-tight transition-colors group-hover:text-emerald-400">
-                    {sector.name}
-                  </h3>
-                  <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                    <div className="flex items-center gap-2 text-amber-400 font-black">
-                      <FiStar fill="currentColor" size={16} />
-                      {(sector.avgRating || 4.9).toFixed(1)}
-                    </div>
-                    <div className="p-3 bg-white/5 rounded-xl text-white group-hover:bg-emerald-500 transition-colors">
-                      <FiArrowRight size={20} />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-white font-bold text-xl leading-tight group-hover:text-emerald-300 transition">
+                      {sector.name}
+                    </h3>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-white/80 text-xs flex items-center gap-1">
+                        <FiUsers size={12} /> {sector.departmentCount || 0}{" "}
+                        units
+                      </span>
+                      <span className="flex items-center gap-1 bg-white/20 backdrop-blur px-2 py-1 rounded-full text-white text-xs font-bold">
+                        <FiStar
+                          size={10}
+                          className="fill-yellow-400 text-yellow-400"
+                        />{" "}
+                        {(sector.avgRating || 4.8).toFixed(1)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -541,84 +574,58 @@ const Home = () => {
           </div>
         </section>
 
-        {/* ========== TRUST & FEEDBACK ========== */}
-        <section className="container mx-auto px-6 pb-32">
-          <div className="bg-slate-950 rounded-[3.5rem] p-12 md:p-24 relative overflow-hidden text-center">
-            {/* Visual Flair */}
-            <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
-              <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-emerald-500 blur-[120px] rounded-full" />
-              <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-blue-500 blur-[120px] rounded-full" />
-            </div>
-
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <div className="w-24 h-24 bg-emerald-500/10 rounded-[2rem] border border-emerald-500/20 flex items-center justify-center text-emerald-500 mx-auto mb-12">
-                <FiAward size={48} />
+        {/* ========== IMPACT & FEEDBACK ========== */}
+        <section className="bg-slate-900 py-24">
+          <div className="container mx-auto px-6">
+            <div className="max-w-5xl mx-auto text-center">
+              <div className="w-20 h-20 bg-emerald-500/10 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                <FiAward className="text-emerald-500 text-4xl" />
               </div>
-              <h2 className="text-4xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-tight">
-                Enhance Ethiopia's <br />{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-                  Digital Experience.
-                </span>
+              <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                Help Us Shape the Future
               </h2>
-              <p className="text-xl text-slate-400 mb-12 leading-relaxed">
-                Your feedback directly influences the quality of service at the
-                Ministry. Connect with us to share your navigation experience
-                and suggestions for improvement.
+              <p className="text-slate-300 text-lg max-w-2xl mx-auto mt-6">
+                Your feedback drives our digital transformation. Share your
+                experience with any department or service – every voice matters.
               </p>
-              <div className="flex flex-col md:flex-row gap-6 justify-center">
+              <div className="flex flex-wrap justify-center gap-4 mt-12">
                 <Link
                   to="/feedback"
-                  className="px-12 py-5 bg-white text-slate-950 rounded-2xl font-black text-lg hover:bg-emerald-400 hover:text-white transition-all shadow-2xl"
+                  className="px-10 py-4 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition shadow-lg flex items-center gap-2"
                 >
-                  Submit Feedback
+                  <FiStar /> Leave Feedback
                 </Link>
-                <div className="flex items-center gap-4 text-white/50 px-8 py-5 border border-white/10 rounded-2xl">
-                  <FiShield className="text-emerald-400" /> Secure Data
-                  Encryption
+                <div className="px-8 py-4 border border-white/10 rounded-xl text-white/70 flex items-center gap-2">
+                  <FiShield /> Secured & Anonymous
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* CUSTOM ANIMATION STYLES */}
-        <style jsx>{`
-          .no-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-          .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-
-          @keyframes fade-in-up {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          @keyframes fade-in-down {
-            from {
-              opacity: 0;
-              transform: translateY(-30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          .animate-fade-in-up {
-            animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          }
-          .animate-fade-in-down {
-            animation: fade-in-down 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          }
-        `}</style>
+        {/* ========== FOOTER NOTE (Ministry Address) ========== */}
+        <div className="bg-white border-t border-slate-100 py-8 text-center text-slate-400 text-sm">
+          <div className="container mx-auto px-6">
+            <p>
+              © {new Date().getFullYear()} Ministry of Innovation and Technology
+              – Federal Democratic Republic of Ethiopia
+            </p>
+            <p className="text-xs mt-2">
+              Bole International Airport, Addis Ababa | info@mint.gov.et
+            </p>
+          </div>
+        </div>
       </div>
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </Layout>
   );
 };
