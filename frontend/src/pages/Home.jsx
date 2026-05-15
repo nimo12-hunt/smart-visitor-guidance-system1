@@ -17,7 +17,6 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiUsers,
-  FiTrendingUp,
 } from "react-icons/fi";
 import axios from "axios";
 
@@ -25,80 +24,56 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
-// ============ ETHIOPIAN COLORS (MINT WEBSITE COLORS) ============
-// Gold/Yellow: #FFD700 (Primary)
-// Blue: #1E3A8A (Secondary - Deep Government Blue)
-// Red: #DC2626 (Accent - Ethiopian Red)
-// White: #FFFFFF
-// Dark: #0F172A (Text/Backgrounds)
-
-// ============ PREMIUM HERO BACKGROUND ASSETS ============
+// ============ PREMIUM BACKGROUND ASSETS ============
 const BACKGROUND_ASSETS = [
   {
     type: "video",
     url: "https://assets.mixkit.co/videos/preview/mixkit-technology-circuit-board-connections-31201-large.mp4",
-    title: "Technology Innovation",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=1080&fit=crop&q=90",
-    title: "Digital Government",
+    url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&h=1080&fit=crop&q=90",
-    title: "Advanced Technology",
+    url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&h=1080&fit=crop",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&h=1080&fit=crop&q=90",
-    title: "Innovation Hub",
+    url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=1080&fit=crop",
   },
   {
     type: "image",
-    url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=90",
-    title: "Government Infrastructure",
+    url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&h=1080&fit=crop",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop",
   },
 ];
 
-const AUTO_ROTATE_INTERVAL = 8000;
-const TAGLINE_TRANSITION_INTERVAL = 5000;
+const AUTO_ROTATE_INTERVAL = 7000;
+const TAGLINE_TRANSITION_INTERVAL = 4000;
 
-// ============ GOVERNMENT TAGLINES ============
+// ============ ROTATING TAGLINES ============
 const ROTATING_TAGLINES = [
-  "Innovating Ethiopia's Digital Future",
-  "Technology for National Development",
-  "Science, Innovation & Digital Transformation",
-  "Building Tomorrow's Ethiopia Today",
-  "Ministry of Innovation & Technology - Serving Citizens",
+  "Find Your Way. Get the Service You Need.",
+  "Navigate Departments & Services with Ease.",
+  "Where to Go? Search. Locate. Visit.",
+  "Discover Services • Find Locations • Leave Feedback.",
+  "Your Smart Guide Inside the Ministry.",
 ];
 
-// ============ UNIQUE SECTOR IMAGES (ETHIOPIAN GOVERNMENT THEME) ============
+// ============ SECTOR SPLASH IMAGES ============
 const sectorSplashImages = {
-  1: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop&q=90",
-  2: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=500&fit=crop&q=90",
-  3: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=500&fit=crop&q=90",
-  4: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=90",
-  5: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop&q=90",
-  6: "https://images.unsplash.com/photo-1488229297570-58520e90b832?w=800&h=500&fit=crop&q=90",
-  7: "https://images.unsplash.com/photo-1547921f-3b15-4b2c-8d8b-7c5b5e5c5f5e?w=800&h=500&fit=crop&q=90",
-  8: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=500&fit=crop&q=90",
-};
-
-// ============ ETHIOPIAN FLAG COLORS ============
-const ETHIOPIAN_FLAG = {
-  green: "#239B56",
-  yellow: "#FFD700",
-  red: "#DC2626",
-};
-
-// ============ GOVERNMENT BLUE & GOLD ============
-const GOVT_COLORS = {
-  primary: "#1E3A8A", // Deep Government Blue
-  secondary: "#FFD700", // Gold/Yellow
-  accent: "#DC2626", // Red
-  light: "#F8FAFC", // Light slate
-  dark: "#0F172A", // Very dark
+  1: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop",
+  2: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=500&fit=crop",
+  3: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=800&h=500&fit=crop",
+  4: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop",
+  5: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=500&fit=crop",
+  6: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=500&fit=crop",
+  7: "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?w=800&h=500&fit=crop",
+  8: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&h=500&fit=crop",
 };
 
 // ============ HERO SECTION COMPONENT ============
@@ -116,14 +91,7 @@ const HeroSection = ({
   const currentAsset = BACKGROUND_ASSETS[currentMediaIndex];
 
   return (
-    <div className="relative h-[90vh] min-h-[650px] w-full overflow-hidden group">
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-br from-yellow-400/20 to-transparent rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-tl from-blue-600/20 to-transparent rounded-full blur-3xl animate-pulse animation-delay-2000" />
-        <div className="absolute top-1/2 right-20 w-64 h-64 bg-gradient-to-l from-red-600/20 to-transparent rounded-full blur-3xl animate-pulse animation-delay-4000" />
-      </div>
-
+    <div className="relative h-[85vh] min-h-[600px] w-full overflow-hidden group">
       {/* Background Media */}
       <BackgroundMedia
         asset={currentAsset}
@@ -131,52 +99,45 @@ const HeroSection = ({
         isTransitioning={isTransitioning}
       />
 
-      {/* Premium Gradient Overlay - Ethiopian Government Theme */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A]/88 via-[#1F2937]/85 to-[#111827]/90 backdrop-blur-[3px]" />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0B2A4A]/85 via-[#103457]/75 to-[#1A3A5C]/80 backdrop-blur-[2px]" />
 
-      {/* Ethiopian Flag Top Bar */}
-      <div className="absolute top-0 left-0 right-0 h-2 flex z-30 shadow-lg">
-        <div className="w-1/3 bg-[#239B56]" />
-        <div className="w-1/3 bg-[#FFD700]" />
-        <div className="w-1/3 bg-[#DC2626]" />
+      {/* Flag Bar */}
+      <div className="absolute top-0 left-0 right-0 h-1.5 flex z-20">
+        <div className="w-1/3 bg-[#078930]" />
+        <div className="w-1/3 bg-[#FCDD09]" />
+        <div className="w-1/3 bg-[#DA121A]" />
       </div>
 
-      {/* Carousel Navigation Buttons */}
+      {/* Navigation Buttons */}
       <CarouselControls onPrevious={onPrevious} onNext={onNext} />
 
-      {/* Main Hero Content */}
+      {/* Main Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-        <div className="max-w-5xl mx-auto w-full space-y-8 animate-fadeInDown">
-          {/* Government Badge with Icon */}
-          <div className="inline-flex items-center gap-3 bg-white/[0.08] backdrop-blur-xl px-6 py-3 rounded-full border border-white/20 shadow-2xl hover:bg-white/[0.12] transition-all duration-300 animate-slideInUp">
-            <FiHomeIcon className="text-yellow-400 animate-bounce" size={20} />
-            <span className="text-sm md:text-base font-bold tracking-wider text-white/95">
+        <div className="max-w-4xl mx-auto w-full space-y-6">
+          {/* Brand Badge */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 shadow-lg animate-fadeInUp hover:bg-white/20 transition-colors cursor-default">
+            <FiHomeIcon className="text-emerald-400" size={16} />
+            <span className="text-sm font-medium tracking-wide text-white/90">
               MINISTRY OF INNOVATION & TECHNOLOGY
             </span>
-            <span className="text-xs font-semibold text-yellow-300 ml-2">
-              🇪🇹 ETHIOPIA
-            </span>
           </div>
 
-          {/* Main Title with Bold Styling */}
-          <div className="space-y-3">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-tight animate-slideInUp animation-delay-100 drop-shadow-2xl">
-              Welcome to
-            </h1>
-            <h2 className="text-6xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-300 animate-shimmer drop-shadow-2xl leading-tight">
-              MINT NAVIGATOR
-            </h2>
-            <p className="text-base md:text-lg text-white/90 font-semibold">
-              Ethiopian Government's Premier Digital Innovation Platform
-            </p>
-          </div>
+          {/* Main Title */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight animate-fadeInUp [animation-delay:0.1s]">
+            Welcome to{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 animate-pulse">
+              MINT
+            </span>{" "}
+            Navigator
+          </h1>
 
-          {/* Animated Rotating Tagline */}
-          <div className="h-16 md:h-20 overflow-hidden relative px-4">
+          {/* Animated Tagline */}
+          <div className="h-20 md:h-24 overflow-hidden relative">
             <p
-              className={`text-lg md:text-2xl font-bold text-yellow-300 max-w-3xl mx-auto leading-relaxed transition-all duration-700 ${
+              className={`text-base md:text-xl text-white/95 max-w-2xl mx-auto leading-relaxed font-medium transition-all duration-500 ${
                 isTextTransitioning
-                  ? "opacity-0 translate-y-8"
+                  ? "opacity-0 translate-y-4"
                   : "opacity-100 translate-y-0"
               }`}
             >
@@ -184,56 +145,33 @@ const HeroSection = ({
             </p>
           </div>
 
-          {/* Enhanced Stats Grid */}
+          {/* Stats Grid */}
           <StatsGrid stats={stats} />
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6 animate-slideInUp animation-delay-300">
+          {/* CTA Button */}
+          <div className="flex flex-wrap justify-center gap-4 animate-fadeInUp [animation-delay:0.4s]">
             <button
               onClick={onScrollToSectors}
-              className="group relative px-8 md:px-10 py-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 text-blue-900 font-black text-base md:text-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/50 hover:-translate-y-1 active:translate-y-0"
+              className="group relative px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full font-semibold overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/50"
             >
-              <span className="relative z-10 flex items-center justify-center gap-3">
-                <FiTrendingUp size={20} />
-                EXPLORE SECTORS
+              <span className="relative z-10 flex items-center gap-2">
+                Get Started
+                <FiArrowRight
+                  className="group-hover:translate-x-1 transition-transform"
+                  size={16}
+                />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
-
-            <Link
-              to="/feedback"
-              className="group relative px-8 md:px-10 py-4 bg-white/10 backdrop-blur-md text-white font-black text-base md:text-lg rounded-xl border-2 border-white/30 overflow-hidden transition-all duration-300 hover:bg-white/20 hover:border-yellow-400 hover:shadow-lg hover:-translate-y-1"
-            >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                <FiStar size={20} />
-                FEEDBACK
-              </span>
-            </Link>
           </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-        <div className="w-8 h-12 rounded-full border-2 border-yellow-400 flex justify-center bg-white/5 backdrop-blur">
-          <div className="w-1.5 h-3 bg-yellow-400 rounded-full mt-2 animate-pulse" />
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+        <div className="w-6 h-10 rounded-full border-2 border-white/50 flex justify-center">
+          <div className="w-1 h-2 bg-white/70 rounded-full mt-2 animate-pulse" />
         </div>
-      </div>
-
-      {/* Carousel Indicators */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
-        {BACKGROUND_ASSETS.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => {}}
-            className={`transition-all duration-300 rounded-full ${
-              idx === currentMediaIndex
-                ? "w-8 h-2 bg-yellow-400"
-                : "w-2 h-2 bg-white/40 hover:bg-white/60"
-            }`}
-            aria-label={`Slide ${idx + 1}`}
-          />
-        ))}
       </div>
     </div>
   );
@@ -249,7 +187,7 @@ const BackgroundMedia = ({ asset, videoRef, isTransitioning }) => {
         loop
         muted
         playsInline
-        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${
+        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${
           isTransitioning ? "opacity-0" : "opacity-100"
         }`}
         key={asset.url}
@@ -261,7 +199,7 @@ const BackgroundMedia = ({ asset, videoRef, isTransitioning }) => {
 
   return (
     <div
-      className={`absolute inset-0 w-full h-full transition-opacity duration-1000 bg-cover bg-center ${
+      className={`absolute inset-0 w-full h-full transition-opacity duration-700 bg-cover bg-center ${
         isTransitioning ? "opacity-0" : "opacity-100"
       }`}
       style={{ backgroundImage: `url(${asset.url})` }}
@@ -274,66 +212,39 @@ const CarouselControls = ({ onPrevious, onNext }) => (
   <>
     <button
       onClick={onPrevious}
-      className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-yellow-400/20 hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+      className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:shadow-lg"
       aria-label="Previous slide"
     >
-      <FiChevronLeft
-        size={28}
-        className="group-hover:scale-125 transition-transform"
-      />
+      <FiChevronLeft size={24} />
     </button>
     <button
       onClick={onNext}
-      className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-yellow-400/20 hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+      className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:shadow-lg"
       aria-label="Next slide"
     >
-      <FiChevronRight
-        size={28}
-        className="group-hover:scale-125 transition-transform"
-      />
+      <FiChevronRight size={24} />
     </button>
   </>
 );
 
-// ============ PREMIUM STATS GRID ============
+// ============ STATS GRID COMPONENT ============
 const StatsGrid = ({ stats }) => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-2xl mx-auto">
+  <div className="grid grid-cols-3 gap-4 max-w-md mx-auto animate-fadeInUp [animation-delay:0.3s]">
     {[
-      {
-        value: stats.totalDepts,
-        label: "DEPARTMENTS",
-        color: "from-yellow-400 to-amber-500",
-        icon: "🏛️",
-      },
-      {
-        value: stats.totalSectors,
-        label: "SECTORS",
-        color: "from-blue-400 to-blue-600",
-        icon: "🌐",
-      },
-      {
-        value: stats.avgRating,
-        label: "RATING",
-        color: "from-red-400 to-red-600",
-        icon: "⭐",
-      },
+      { value: stats.totalDepts, label: "Departments", color: "text-white" },
+      { value: stats.totalSectors, label: "Sectors", color: "text-white" },
+      { value: stats.avgRating, label: "Avg Rating", color: "text-amber-300" },
     ].map((stat, index) => (
       <div
         key={index}
-        className="group relative rounded-2xl border-2 border-white/20 bg-white/[0.08] backdrop-blur-xl px-6 py-6 text-center hover:bg-white/[0.15] hover:border-white/40 transition-all duration-300 hover:-translate-y-2 overflow-hidden"
+        className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md px-4 py-3 text-center hover:bg-white/20 transition-colors duration-300"
       >
-        <div
-          className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
-        />
-        <div className="relative z-10">
-          <p className="text-3xl md:text-4xl font-black text-white mb-2">
-            {stat.value}
-          </p>
-          <p className="text-xs md:text-sm font-black tracking-widest text-yellow-300 group-hover:text-yellow-200 transition-colors">
-            {stat.icon} {stat.label}
-          </p>
-        </div>
-        <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-all" />
+        <p className={`text-2xl md:text-3xl font-bold ${stat.color}`}>
+          {stat.value}
+        </p>
+        <p className="text-[11px] text-white/80 uppercase tracking-wide mt-1">
+          {stat.label}
+        </p>
       </div>
     ))}
   </div>
@@ -345,10 +256,10 @@ const AnnouncementsTicker = ({ announcements }) => {
 
   const getPriorityStyles = (priority) => {
     const styles = {
-      urgent: "bg-red-900/30 text-red-200 border-red-500/50",
-      high: "bg-orange-900/30 text-orange-200 border-orange-500/50",
-      medium: "bg-yellow-900/30 text-yellow-200 border-yellow-500/50",
-      default: "bg-blue-900/30 text-blue-200 border-blue-500/50",
+      urgent: "bg-red-100 text-red-700 border-red-200",
+      high: "bg-orange-100 text-orange-700 border-orange-200",
+      medium: "bg-yellow-100 text-yellow-700 border-yellow-200",
+      default: "bg-blue-100 text-blue-700 border-blue-200",
     };
     return styles[priority] || styles.default;
   };
@@ -365,21 +276,21 @@ const AnnouncementsTicker = ({ announcements }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-900/40 via-blue-800/40 to-blue-900/40 backdrop-blur-md border-b-2 border-yellow-400/30">
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
-          <div className="flex items-center gap-2 text-yellow-300 text-sm md:text-base font-bold flex-shrink-0">
-            <FiBell size={18} className="animate-bounce" /> ALERTS:
+    <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200">
+      <div className="container mx-auto px-4 py-2">
+        <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <div className="flex items-center gap-1 text-amber-700 text-sm font-semibold flex-shrink-0">
+            <FiBell size={14} /> Announcements:
           </div>
           {announcements.map((announcement) => (
             <div
               key={announcement._id}
-              className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg text-xs md:text-sm font-bold border-2 flex-shrink-0 backdrop-blur-sm transition-all hover:shadow-lg hover:border-yellow-400 ${getPriorityStyles(announcement.priority)}`}
+              className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border flex-shrink-0 ${getPriorityStyles(announcement.priority)}`}
             >
-              <span className="text-lg">{getTypeIcon(announcement.type)}</span>
-              <span>{announcement.title}</span>
-              <span className="hidden sm:inline text-white/60">•</span>
-              <span className="hidden sm:inline text-white/80 truncate max-w-xs">
+              <span>{getTypeIcon(announcement.type)}</span>
+              <span className="font-semibold">{announcement.title}</span>
+              <span className="hidden sm:inline text-gray-600">•</span>
+              <span className="hidden sm:inline text-gray-500 truncate max-w-md">
                 {announcement.message}
               </span>
             </div>
@@ -390,7 +301,7 @@ const AnnouncementsTicker = ({ announcements }) => {
   );
 };
 
-// ============ PREMIUM SEARCH SECTION ============
+// ============ SEARCH SECTION ============
 const SearchSection = ({
   searchQuery,
   searchResults,
@@ -399,59 +310,59 @@ const SearchSection = ({
   onResultClick,
   getFloorLabel,
 }) => (
-  <div className="container mx-auto px-4 -mt-8 md:-mt-10 relative z-20">
-    <div className="max-w-3xl mx-auto relative">
-      <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-2 border-2 border-yellow-300/30 hover:border-yellow-400/50 transition-all duration-300 group">
+  <div className="container mx-auto px-4 -mt-7 sm:-mt-8 relative z-20">
+    <div className="max-w-2xl mx-auto relative">
+      <div className="bg-white rounded-2xl shadow-xl p-1.5 border border-slate-100 hover:shadow-2xl transition-shadow duration-300">
         <div className="relative flex items-center min-w-0">
           <FiSearch
-            className="absolute left-5 text-blue-600 pointer-events-none z-10 group-hover:scale-110 transition-transform"
-            size={22}
+            className="absolute left-4 text-slate-500 pointer-events-none z-10"
+            size={20}
           />
           <input
             type="text"
             value={searchQuery}
             onChange={onSearchChange}
-            placeholder="Search departments, services, buildings..."
-            className="w-full min-w-0 pl-14 pr-32 md:pr-40 py-4 bg-white border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 text-base text-blue-900 placeholder-blue-400 font-semibold transition-all duration-300"
+            placeholder="Search departments, services, or buildings…"
+            className="w-full min-w-0 pl-11 pr-[5.5rem] sm:pr-28 py-3.5 bg-white border-0 rounded-[0.875rem] focus:outline-none focus:ring-2 focus:ring-emerald-500/40 text-sm text-slate-900 placeholder-slate-400 transition-all duration-300"
           />
           <button
             type="button"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-400 to-amber-500 text-blue-900 px-6 md:px-8 py-2.5 rounded-lg font-bold hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 hover:scale-105 active:scale-95 text-sm md:text-base"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 sm:px-5 py-2 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:shadow-lg text-xs sm:text-sm"
           >
-            SEARCH
+            Search
           </button>
         </div>
       </div>
 
       {/* Search Results Dropdown */}
       {showResults && searchResults.length > 0 && (
-        <div className="absolute top-full left-0 right-0 bg-white rounded-xl shadow-2xl border-2 border-yellow-300/30 z-50 mt-4 overflow-hidden animate-slideInUp">
+        <div className="absolute top-full left-0 right-0 bg-white rounded-xl shadow-xl border border-gray-100 z-50 mt-2 overflow-hidden animate-fadeInUp">
           {searchResults.map((dept) => (
             <Link
               key={dept.id}
               to={`/department/${dept.id}`}
               onClick={onResultClick}
-              className="block px-5 py-4 hover:bg-blue-50 transition-colors border-b border-blue-100 last:border-b-0 group"
+              className="block px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0 group"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <div className="font-bold text-blue-900 group-hover:text-yellow-600 transition-colors text-base">
+                  <div className="font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors text-sm">
                     {dept.name}
                   </div>
-                  <div className="text-xs text-blue-600 flex items-center gap-3 mt-2">
-                    <span className="flex items-center gap-1 font-semibold">
-                      <FiMapPin className="text-yellow-500" size={13} />
+                  <div className="text-xs text-gray-500 flex items-center gap-2 mt-1">
+                    <span className="flex items-center gap-1">
+                      <FiMapPin className="text-emerald-500" size={11} />
                       Bldg {dept.building}
                     </span>
-                    <span className="w-1.5 h-1.5 bg-blue-300 rounded-full" />
+                    <span className="w-1 h-1 bg-gray-300 rounded-full" />
                     <span>{getFloorLabel(dept.floor)}</span>
-                    <span className="w-1.5 h-1.5 bg-blue-300 rounded-full" />
+                    <span className="w-1 h-1 bg-gray-300 rounded-full" />
                     <span>Rm {dept.room}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-yellow-50 px-3 py-1.5 rounded-full">
-                  <FiStar className="fill-current text-yellow-500 text-sm" />
-                  <span className="text-sm font-bold text-blue-900">
+                <div className="flex items-center gap-1.5 bg-yellow-50 px-2 py-1 rounded-full">
+                  <FiStar className="fill-current text-yellow-500 text-xs" />
+                  <span className="text-xs font-semibold text-gray-700">
                     {dept.rating}
                   </span>
                 </div>
@@ -464,75 +375,71 @@ const SearchSection = ({
   </div>
 );
 
-// ============ PREMIUM SECTOR CARD ============
+// ============ SECTOR CARD ============
 const SectorCard = ({ sector, sectorImage }) => (
   <Link
     to={`/sector/${sector.id}`}
-    className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border-2 border-blue-100 hover:border-yellow-400"
+    className="group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-100 hover:border-emerald-300"
   >
     {/* Image Container */}
-    <div className="relative h-56 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50">
+    <div className="relative h-48 overflow-hidden">
       <img
         src={sectorImage}
         alt={sector.name}
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         onError={(e) => {
           e.target.src =
-            "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop&q=90";
+            "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop";
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/70 via-blue-900/30 to-transparent group-hover:from-blue-900/60 transition-all duration-300" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
       {/* Top Badges */}
-      <div className="absolute top-4 left-4 flex gap-2">
-        <span className="inline-block px-4 py-2 text-xs md:text-sm font-black text-white rounded-lg shadow-lg bg-gradient-to-r from-yellow-500 to-amber-600 drop-shadow-lg">
-          Sector {sector.id}
-        </span>
-        <span className="inline-block px-3 py-2 text-xs font-bold text-yellow-300 bg-blue-900/60 rounded-lg border border-yellow-400/50 backdrop-blur">
-          {sector.building}
+      <div className="absolute top-4 left-4">
+        <span
+          className="inline-block px-3 py-1 text-[10px] font-bold text-white rounded-full shadow-md"
+          style={{ backgroundColor: sector.color || "#0B2A4A" }}
+        >
+          {sector.building} • Sector {sector.id}
         </span>
       </div>
-
-      {/* Rating Badge */}
-      <div className="absolute top-4 right-4 flex items-center gap-2 bg-white/95 backdrop-blur-md px-3 py-2 rounded-lg shadow-lg hover:bg-yellow-400 transition-colors duration-300">
-        <FiStar className="fill-yellow-400 text-yellow-400 text-lg" size={16} />
-        <span className="font-black text-blue-900">
-          {(sector.avgRating || 4.8).toFixed(1)}
-        </span>
+      <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-2 py-1 rounded-full text-white text-[10px] font-bold">
+        <FiStar className="fill-yellow-400 text-yellow-400" size={10} />
+        {(sector.avgRating || 4.8).toFixed(1)}
       </div>
     </div>
 
     {/* Card Content */}
-    <div className="p-6 bg-gradient-to-br from-white to-blue-50">
-      <h3 className="font-black text-blue-900 text-xl md:text-2xl mb-2 group-hover:text-yellow-600 transition-colors leading-tight">
+    <div className="p-5">
+      <h3 className="font-extrabold text-slate-800 text-lg mb-1 group-hover:text-emerald-600 transition-colors leading-tight">
         {sector.name}
       </h3>
-      <p className="text-blue-600 text-sm mb-5 line-clamp-2 leading-relaxed font-semibold">
+      <p className="text-slate-500 text-xs mb-4 line-clamp-2 leading-relaxed">
         {sector.description?.substring(0, 80) ||
-          "Ethiopian government sector providing essential services..."}
+          "Ministry sector providing essential services..."}
       </p>
 
       {/* Stats Row */}
-      <div className="flex items-center justify-between text-sm font-bold border-t-2 border-blue-100 pt-4 mt-4">
-        <div className="flex items-center gap-2 text-yellow-600">
-          <FiMapPin size={16} className="text-yellow-500" />
+      <div className="flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-100 pt-3 mt-1">
+        <div className="flex items-center gap-1.5 font-semibold">
+          <FiMapPin size={11} className="text-emerald-500" />
           <span>
             {Math.max(2, Math.round((sector.departmentCount || 4) / 2))} min
           </span>
         </div>
-        <div className="flex items-center gap-2 text-red-600">
-          <FiUsers size={16} className="text-red-500" />
-          <span>{sector.departmentCount || 0} Departments</span>
+        <div className="flex items-center gap-1.5 font-semibold text-amber-600">
+          <FiUsers size={11} />
+          <span>{sector.departmentCount || 0} units</span>
         </div>
       </div>
 
       {/* Call to Action */}
-      <div className="mt-5 flex items-center justify-between group/btn">
-        <span className="text-xs font-black tracking-widest text-blue-400 uppercase group-hover/btn:text-yellow-600 transition-colors">
-          VIEW SECTOR
+      <div className="mt-4 flex items-center justify-between">
+        <span className="text-[10px] font-bold tracking-[0.18em] text-slate-400 uppercase group-hover:text-emerald-600 transition-colors">
+          View Details
         </span>
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 text-blue-900 flex items-center justify-center font-bold group-hover/btn:bg-red-600 group-hover/btn:text-white transition-all group-hover/btn:translate-x-1 shadow-lg">
-          <FiArrowRight size={18} />
+        <div className="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center group-hover:bg-emerald-600 transition-all group-hover:translate-x-1">
+          <FiArrowRight size={12} />
         </div>
       </div>
     </div>
@@ -541,38 +448,30 @@ const SectorCard = ({ sector, sectorImage }) => (
 
 // ============ SECTORS SECTION ============
 const SectorsSection = ({ sectors }) => (
-  <main
-    id="sectors"
-    className="container mx-auto px-4 py-16 md:py-24 scroll-mt-24"
-  >
-    <div className="max-w-7xl mx-auto">
-      {/* Section Header */}
-      <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-100 to-amber-100 px-5 py-2.5 rounded-full mb-5 border-2 border-yellow-300">
-          <FiGrid className="text-yellow-600 animate-spin" size={20} />
-          <span className="text-yellow-900 text-sm md:text-base font-black tracking-wider">
-            GOVERNMENT SECTORS
+  <main id="sectors" className="container mx-auto px-4 py-12 scroll-mt-24">
+    <div className="max-w-6xl mx-auto">
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-full mb-3">
+          <FiGrid className="text-emerald-600" size={14} />
+          <span className="text-emerald-700 text-xs font-semibold tracking-wide">
+            ORGANIZED BY SECTOR
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-blue-900 mb-4 leading-tight">
-          Explore Our{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-600">
-            Sectors
-          </span>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          Explore Our Sectors
         </h2>
-        <p className="text-blue-600 text-base md:text-lg max-w-3xl mx-auto font-bold leading-relaxed">
-          Navigate through Ethiopian government departments organized by
-          functional sectors with seamless one-tap navigation
+        <p className="text-gray-500 text-sm max-w-2xl mx-auto">
+          Navigate through ministry departments organized by functional sectors
+          with one‑tap navigation
         </p>
       </div>
 
-      {/* Sectors Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {sectors.map((sector) => {
           const sectorImage =
             sector.image ||
             sectorSplashImages[sector.id] ||
-            "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop&q=90";
+            "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop";
 
           return (
             <SectorCard
@@ -589,17 +488,13 @@ const SectorsSection = ({ sectors }) => (
 
 // ============ FEEDBACK CTA ============
 const FeedbackCTA = () => (
-  <div className="container mx-auto px-4 py-16">
-    <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 rounded-2xl p-12 border-2 border-yellow-400/30 shadow-2xl text-center">
-      <p className="text-white/90 text-lg font-bold mb-6">
-        Help us improve your experience with MINT Navigator
-      </p>
+  <div className="container mx-auto px-4 pb-16">
+    <div className="flex flex-wrap justify-center gap-3">
       <Link
         to="/feedback"
-        className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-yellow-400 to-amber-500 text-blue-900 font-black text-lg rounded-xl hover:shadow-2xl hover:shadow-yellow-500/50 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
+        className="group px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-200 flex items-center gap-2 hover:shadow-lg"
       >
-        <FiStar size={24} />
-        SHARE YOUR FEEDBACK
+        <FiStar size={14} /> Leave General Feedback
       </Link>
     </div>
   </div>
@@ -784,15 +679,10 @@ const Home = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950 flex items-center justify-center">
-          <div className="text-center space-y-6">
-            <div className="w-16 h-16 border-4 border-yellow-400 border-t-red-600 rounded-full animate-spin mx-auto" />
-            <p className="text-white text-lg font-bold">
-              Loading MINT Navigator...
-            </p>
-            <p className="text-yellow-300 text-sm font-semibold">
-              Ethiopian Government Digital Platform
-            </p>
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-10 h-10 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto" />
+            <p className="mt-3 text-gray-500 text-sm">Loading experience...</p>
           </div>
         </div>
       </Layout>
@@ -802,7 +692,7 @@ const Home = () => {
   // ============ RENDER ============
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50">
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
         <AnnouncementBanner />
 
         {/* Announcements Ticker */}
@@ -838,37 +728,16 @@ const Home = () => {
         <FeedbackCTA />
       </div>
 
-      {/* Global Advanced Styles */}
+      {/* Global Styles */}
       <style jsx>{`
-        @keyframes fadeInDown {
+        @keyframes fadeInUp {
           from {
             opacity: 0;
-            transform: translateY(-30px);
+            transform: translateY(20px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
-          }
-        }
-
-        @keyframes slideInUp {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes shimmer {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.85;
           }
         }
 
@@ -878,74 +747,17 @@ const Home = () => {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(-8px);
+            transform: translateY(6px);
           }
         }
 
-        @keyframes pulse {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.6;
-          }
-        }
-
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-12px);
-          }
-        }
-
-        .animate-fadeInDown {
-          animation: fadeInDown 0.8s ease-out forwards;
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out forwards;
           opacity: 0;
-        }
-
-        .animate-slideInUp {
-          animation: slideInUp 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-shimmer {
-          animation: shimmer 3s ease-in-out infinite;
         }
 
         .animate-bounce {
           animation: bounce 1.5s infinite;
-        }
-
-        .animate-pulse {
-          animation: pulse 2s ease-in-out infinite;
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
-        .animation-delay-100 {
-          animation-delay: 0.1s;
-        }
-
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-        }
-
-        .animation-delay-300 {
-          animation-delay: 0.3s;
-        }
-
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
         }
 
         .scrollbar-hide::-webkit-scrollbar {
@@ -955,17 +767,6 @@ const Home = () => {
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
-        }
-
-        .drop-shadow-2xl {
-          filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15));
-        }
-
-        /* Text shadows for bold effect */
-        h1,
-        h2,
-        h3 {
-          text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
       `}</style>
     </Layout>
