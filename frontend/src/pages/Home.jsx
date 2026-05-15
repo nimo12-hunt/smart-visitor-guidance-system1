@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/layout/Layout";
@@ -37,7 +36,7 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
-// High‑quality background assets (4K video + images)
+// High-quality 4K background assets (video + images)
 const BACKGROUND_ASSETS = [
   {
     type: "video",
@@ -66,15 +65,16 @@ const BACKGROUND_ASSETS = [
   },
 ];
 
+// Clean, modern rotating taglines aligned with MINT Navigator
 const ROTATING_TAGLINES = [
-  "Empowering Ethiopia through Digital Innovation.",
-  "Your Gateway to Modern Public Services.",
-  "Streamlining Governance with Technology.",
-  "Building a Digitally Inclusive Nation.",
-  "Innovation at the Heart of Service.",
+  "Navigate, Innovate, Transform.",
+  "Your Digital Gateway to Excellence.",
+  "Smart Services for a Digital Ethiopia.",
+  "Empowering Citizens, Enabling Growth.",
+  "Seamless Access, Superior Service.",
 ];
 
-// Splash images for sectors (high‑quality, unique per sector)
+// Unique high‑quality splash images for each sector (1..8)
 const sectorSplashImages = {
   1: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop",
   2: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=500&fit=crop",
@@ -238,7 +238,6 @@ const Home = () => {
     setShowResults(false);
   };
 
-  // Scroll helper
   const scrollToSearch = () => {
     document
       .getElementById("search-section")
@@ -545,6 +544,10 @@ const Home = () => {
                     }
                     alt={sector.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop";
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                   <div className="absolute top-4 left-4 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">
