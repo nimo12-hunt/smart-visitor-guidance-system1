@@ -17,7 +17,6 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiUsers,
-  FiTrendingUp,
 } from "react-icons/fi";
 import axios from "axios";
 
@@ -25,7 +24,7 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
-// Premium background assets (video + images)
+// Premium background assets (video + images) – unchanged
 const BACKGROUND_ASSETS = [
   {
     type: "video",
@@ -55,7 +54,7 @@ const BACKGROUND_ASSETS = [
 
 const AUTO_ROTATE_INTERVAL = 7000;
 
-// New rotating taglines focused on wayfinding
+// New rotating taglines (wayfinding focus) – UPDATED HERO SECTION
 const ROTATING_TAGLINES = [
   "Find Your Way. Get the Service You Need.",
   "Navigate Departments & Services with Ease.",
@@ -64,7 +63,7 @@ const ROTATING_TAGLINES = [
   "Your Smart Guide Inside the Ministry.",
 ];
 
-// Premium high‑resolution splash images for each sector (IDs 1–8)
+// Unique high‑definition images for each sector (IDs 1–8)
 const sectorSplashImages = {
   1: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop",
   2: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&h=500&fit=crop",
@@ -95,6 +94,7 @@ const Home = () => {
     avgRating: 0,
   });
 
+  // Carousel controls – unchanged
   const startAutoRotate = useCallback(() => {
     if (autoTimerRef.current) clearInterval(autoTimerRef.current);
     autoTimerRef.current = setInterval(() => {
@@ -148,6 +148,7 @@ const Home = () => {
     return () => stopAutoRotate();
   }, [currentMediaIndex]);
 
+  // Rotating tagline effect – using new array
   useEffect(() => {
     const taglineInterval = setInterval(() => {
       setIsTextTransitioning(true);
@@ -159,6 +160,7 @@ const Home = () => {
     return () => clearInterval(taglineInterval);
   }, []);
 
+  // Data fetching – unchanged
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -211,6 +213,7 @@ const Home = () => {
     }
   };
 
+  // Search – unchanged
   useEffect(() => {
     if (searchQuery.trim()) {
       const results = searchDepartments(searchQuery);
@@ -288,6 +291,7 @@ const Home = () => {
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
         <AnnouncementBanner />
 
+        {/* Announcements ticker – unchanged */}
         {announcements.length > 0 && (
           <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200">
             <div className="container mx-auto px-4 py-2">
@@ -313,7 +317,7 @@ const Home = () => {
           </div>
         )}
 
-        {/* ========== HERO SECTION (unchanged) ========== */}
+        {/* ========== HERO SECTION (UPDATED TAGLINES ONLY, LAYOUT UNCHANGED) ========== */}
         <div className="relative h-[85vh] min-h-[600px] w-full overflow-hidden group">
           {currentAsset.type === "video" ? (
             <video
@@ -376,6 +380,7 @@ const Home = () => {
                 Navigator
               </h1>
 
+              {/* Updated rotating taglines */}
               <div className="h-20 md:h-24 overflow-hidden relative mb-6">
                 <p
                   className={`absolute inset-x-0 text-base md:text-xl text-white/95 max-w-2xl mx-auto leading-relaxed font-medium transition-all duration-500 ${
@@ -437,7 +442,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* ========== SEARCH SECTION (unchanged) ========== */}
+        {/* ========== SEARCH SECTION (UNCHANGED) ========== */}
         <div className="container mx-auto px-4 -mt-7 sm:-mt-8 relative z-20">
           <div className="max-w-2xl mx-auto relative">
             <div className="bg-white rounded-2xl shadow-xl p-1.5 border border-slate-100">
@@ -501,7 +506,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* ========== SECTORS GRID – PREMIUM UPGRADE ========== */}
+        {/* ========== SECTORS GRID – PREMIUM UPGRADE (UNIQUE HD IMAGES + ENHANCED CARDS) ========== */}
         <main
           id="sectors"
           className="container mx-auto px-4 py-12 scroll-mt-24"
@@ -525,7 +530,7 @@ const Home = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {sectors.map((sector, index) => {
-                // Use dedicated high‑quality image per sector, fallback to generic
+                // Use unique HD image per sector; fallback to generic
                 const sectorImage =
                   sector.image ||
                   sectorSplashImages[sector.id] ||
@@ -537,7 +542,7 @@ const Home = () => {
                     to={`/sector/${sector.id}`}
                     className="group relative bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-100 hover:border-emerald-300 hover:-translate-y-2"
                   >
-                    {/* Image Container with Zoom Effect */}
+                    {/* Image container with gradient overlay */}
                     <div className="relative h-48 overflow-hidden">
                       <img
                         src={sectorImage}
@@ -549,7 +554,7 @@ const Home = () => {
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                      {/* Floating badges */}
+                      {/* Top badges */}
                       <div className="absolute top-4 left-4 flex flex-col gap-2">
                         <span
                           className="px-3 py-1 text-[10px] font-bold text-white rounded-full shadow-md"
@@ -567,7 +572,7 @@ const Home = () => {
                       </div>
                     </div>
 
-                    {/* Content */}
+                    {/* Card content */}
                     <div className="p-5">
                       <h3 className="font-extrabold text-slate-800 text-lg mb-1 group-hover:text-emerald-600 transition-colors leading-tight">
                         {sector.name}
@@ -577,7 +582,7 @@ const Home = () => {
                           "Ministry sector providing essential services..."}
                       </p>
 
-                      {/* Stats Row */}
+                      {/* Stats row */}
                       <div className="flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-100 pt-3 mt-1">
                         <div className="flex items-center gap-1.5 font-semibold">
                           <FiMapPin size={11} className="text-emerald-500" />
@@ -589,7 +594,7 @@ const Home = () => {
                         </div>
                       </div>
 
-                      {/* View button */}
+                      {/* Call to action */}
                       <div className="mt-4 flex items-center justify-between">
                         <span className="text-[10px] font-bold tracking-[0.18em] text-slate-400 uppercase group-hover:text-emerald-600 transition-colors">
                           View Details
@@ -606,7 +611,7 @@ const Home = () => {
           </div>
         </main>
 
-        {/* ========== FEEDBACK CTA (unchanged) ========== */}
+        {/* Feedback CTA – unchanged */}
         <div className="container mx-auto px-4 pb-16">
           <div className="flex flex-wrap justify-center gap-3">
             <Link
